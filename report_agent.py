@@ -1,19 +1,5 @@
 from agents import Agent, function_tool, ModelSettings
-import os
-from dotenv import load_dotenv
-from agents import Agent, OpenAIChatCompletionsModel
-from openai import AsyncOpenAI
-
-load_dotenv(override=True)
-
-client = AsyncOpenAI(
-    api_key=os.getenv("LLM_API_KEY"),
-    base_url=os.getenv("LLM_BASE_URL"),
-)
-model = OpenAIChatCompletionsModel(
-    model=os.getenv("LLM_MODEL"),
-    openai_client=client,
-)
+from LLM_Model import model
 
 settings = ModelSettings(tool_choice="required")
 

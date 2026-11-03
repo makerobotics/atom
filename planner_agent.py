@@ -1,25 +1,9 @@
+import os
 from pydantic import BaseModel, Field
 from agents import Agent
-import os
-from dotenv import load_dotenv
-from agents import Agent, OpenAIChatCompletionsModel
-from openai import AsyncOpenAI
-from dotenv import load_dotenv
+from LLM_Model import model
 
-load_dotenv(override=True)
-
-client = AsyncOpenAI(
-    api_key=os.getenv("LLM_API_KEY"),
-    base_url=os.getenv("LLM_BASE_URL"),
-)
-model = OpenAIChatCompletionsModel(
-    model=os.getenv("LLM_MODEL"),
-    openai_client=client,
-)
-
-MODEL_NAME = os.getenv("DEFAULT_MODEL_NAME", "gpt-5.4-mini")
 HOW_MANY_SEARCHES = int(os.getenv("HOW_MANY_SEARCHES", 10))
-
 
 INSTRUCTIONS = f"""
 You are a research assistant. Given a user query, come up with a set of searches

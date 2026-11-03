@@ -1,19 +1,6 @@
-from agents import Agent, OpenAIChatCompletionsModel
-from openai import AsyncOpenAI
+from agents import Agent
 from pydantic import BaseModel, Field
-from dotenv import load_dotenv
-import os
-
-load_dotenv(override=True)
-
-client = AsyncOpenAI(
-    api_key=os.getenv("LLM_API_KEY"),
-    base_url=os.getenv("LLM_BASE_URL"),
-)
-model = OpenAIChatCompletionsModel(
-    model=os.getenv("LLM_MODEL"),
-    openai_client=client,
-)
+from LLM_Model import model
 
 INSTRUCTIONS = """
 You are a research assistant. Given a search term, you search for that term and 
