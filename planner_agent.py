@@ -2,7 +2,20 @@ from pydantic import BaseModel, Field
 from agents import Agent
 import os
 from dotenv import load_dotenv
+from agents import Agent, OpenAIChatCompletionsModel
+from openai import AsyncOpenAI
+from dotenv import load_dotenv
+
 load_dotenv(override=True)
+
+client = AsyncOpenAI(
+    api_key=os.getenv("LLM_API_KEY"),
+    base_url=os.getenv("LLM_BASE_URL"),
+)
+model = OpenAIChatCompletionsModel(
+    model=os.getenv("LLM_MODEL"),
+    openai_client=client,
+)
 
 MODEL_NAME = os.getenv("DEFAULT_MODEL_NAME", "gpt-5.4-mini")
 HOW_MANY_SEARCHES = int(os.getenv("HOW_MANY_SEARCHES", 10))
@@ -23,4 +36,4 @@ class SearchItem(BaseModel):
 class SearchPlan(BaseModel):
     searches: list[SearchItem] = Field(description="A list of searches to perform to best answer the query.")
     
-planner_agent = Agent(name="Planner Agent", instructions=INSTRUCTIONS, model=MODEL_NAME, output_type=SearchPlan)
+planner_agent = Agent(name="Planner Agent", instructions=INSTRUCTIONS, model=model, output_type=SearchPlan)
